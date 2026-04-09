@@ -1,14 +1,24 @@
 ## 🧪 Results
 
+## Results
+
 ### Input Images
 
-![Input 1](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426585639.jpg)
-
-![Input 2](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426612941.jpg)
-
-![Input 3](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426626581.jpg)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426585639.jpg" width="250"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/YOUR_IMAGE_2.jpg" width="250"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/YOUR_IMAGE_3.jpg" width="250"/>
+</p>
 
 ---
+
+### Segmentation Outputs
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/output1.jpg" width="300"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/output2.jpg" width="300"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/output3.jpg" width="300"/>
+</p>
 
 ### Segmentation Outputs
 
