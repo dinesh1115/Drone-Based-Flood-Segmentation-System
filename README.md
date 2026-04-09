@@ -1,14 +1,17 @@
-##  Results
- Input & Predictions
+## 🧪 Results
 
-| Input / Output |
-|---------------|
-| ![](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426585639.jpg) |
-| ![](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426612941.jpg) |
-| ![](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426626581.jpg) |
+### Input Images
 
-###  Segmentation Masks
+![Input 1](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426585639.jpg)
 
-| Binary Mask | Colored Mask |
-|------------|-------------|
-| ![](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20BW.png) | ![](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20Color.png) |
+![Input 2](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426612941.jpg)
+
+![Input 3](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426626581.jpg)
+
+---
+
+### Segmentation Outputs
+
+![Binary Mask](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20BW.png)
+
+![Colored Mask](https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20Color.png)
