@@ -1,18 +1,17 @@
-
 # Drone-Based Flood Segmentation System
 
-This project uses deep learning and drone imagery to detect and segment flood-affected areas. It helps in disaster management by identifying water-covered regions from aerial images.
+An AI-powered system that uses drone imagery to detect and segment flood-affected areas. This project helps in disaster management by identifying water-covered regions using deep learning.
 
 ---
 
 ## Results
 
-### Input Images
+### Drone & System Images
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/1753426585639.jpg" width="250"/>
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/input2.jpg" width="250"/>
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/input3.jpg" width="250"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Drone(Hardware).jpg" width="250"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Drone_working.jpg" width="250"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/drone-virtual-remote-camera.jpg" width="250"/>
 </p>
 
 ---
@@ -20,29 +19,28 @@ This project uses deep learning and drone imagery to detect and segment flood-af
 ### Segmentation Outputs
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/output1.jpg" width="300"/>
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/output2.jpg" width="300"/>
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/output3.jpg" width="300"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20BW.png" width="300"/>
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20Color.png" width="300"/>
 </p>
 
 ---
 
 ## Features
 
-- Flood area detection using deep learning
-- Image segmentation with high accuracy
-- Works on drone-captured aerial images
-- Helps in disaster response and planning
+- Flood area detection using deep learning  
+- Image segmentation with high accuracy  
+- Drone-based real-time monitoring  
+- Helps in disaster response and rescue planning  
 
 ---
 
 ## Tech Stack
 
-- Python
-- OpenCV
-- TensorFlow / PyTorch
-- NumPy
-- Matplotlib
+- Python  
+- OpenCV  
+- TensorFlow / PyTorch  
+- NumPy  
+- Matplotlib  
 
 ---
 
@@ -53,9 +51,13 @@ Drone-Based-Flood-Segmentation-System/
 │
 ├── app.py
 ├── train_model.py
-├── dataset/
-├── outputs/
-├── requirements.txt
+├── static/
+├── templates/
+├── Drone(Hardware).jpg
+├── Drone_working.jpg
+├── drone-virtual-remote-camera.jpg
+├── Predicted Mask BW.png
+├── Predicted Mask Color.png
 └── README.md
 ```
 
@@ -89,10 +91,10 @@ python train_model.py
 
 ## Applications
 
-- Flood disaster management
-- Rescue planning
-- Environmental monitoring
-- Smart city systems
+- Flood disaster management  
+- Rescue operations  
+- Environmental monitoring  
+- Smart city infrastructure  
 
 ---
 
