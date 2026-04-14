@@ -44,8 +44,6 @@ AI-powered drone system for detecting and segmenting flood-affected areas using 
 - High accuracy water-body identification  
 - Scalable for disaster management systems  
 
----
-
 ## Tech Stack
 
 - Python  
