@@ -2,7 +2,6 @@
 
 AI-powered drone system for detecting and segmenting flood-affected areas using deep learning. Designed for disaster response, rescue planning, and environmental monitoring.
 
----
 
 ## Project Demo
 
