@@ -25,7 +25,6 @@ AI-powered drone system for detecting and segmenting flood-affected areas using 
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20Color.png" width="300"/>
 </p>
 
----
 
 ### Segmentation Outputs
 
