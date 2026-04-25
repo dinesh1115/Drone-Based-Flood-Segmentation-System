@@ -13,7 +13,6 @@ AI-powered drone system for detecting and segmenting flood-affected areas using 
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/drone-virtual-remote-camera.jpg" width="250"/>
 </p>
 
----
 
 ## Model Results
 
