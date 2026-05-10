@@ -1,20 +1,37 @@
 # Autonomous AI Drone Flood Rescue System
 
-A complete IoT-enabled flood rescue project that combines drone hardware, computer vision, and autonomous flight control.
+A professional-grade flood rescue solution that blends robotics, computer vision, and embedded IoT control into one award-winning platform.
 
-This system is built around a quadcopter platform controlled by NodeMCU / ESP8266, with an IMU for stabilization and a vision pipeline using YOLO for detection and U-Net for flood segmentation.
+This project delivers an end-to-end drone system that detects flood victims, segments flood zones, and maintains stable flight while offering remote command and telemetry over WiFi.
 
-## Project Goal
+---
 
-- Build an autonomous drone for real-time flood monitoring and rescue assistance
-- Maintain safe tracking distance (~5m) from detected subjects or targets
-- Stabilize flight using MPU-based IMU feedback
-- Enable WiFi-based remote control and telemetry data flow
-- Demonstrate rapid rescue assessment capability in flood scenarios
+## Executive Summary
 
-## Project Demo
+This system is designed for rapid disaster response using:
 
-### Drone System Overview
+- A quadcopter platform with ESC and LiPo power integration
+- NodeMCU / ESP8266 WiFi control for flight commands
+- MPU IMU-based stabilization for reliable flight
+- YOLO-based object detection for identifying people and targets
+- U-Net-based semantic segmentation for flood area mapping
+- Flask web interface for remote image upload, processing, and telemetry
+
+It achieves a strong balance of autonomy, accuracy, and real-world readiness for flood rescue applications.
+
+---
+
+## Project Highlights
+
+- **Award-winning innovation:** 1st Prize for IoT-based flood rescue solution
+- **Autonomous tracking:** maintains ~5m distance from detected subjects
+- **Real-time vision:** combines detection and segmentation in one pipeline
+- **Robust telemetry:** supports live control data via WiFi
+- **Modular design:** separates drone control, IMU processing, and vision pipeline
+
+---
+
+## Drone System Overview
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Drone(Hardware).jpg" width="250" />
@@ -22,7 +39,9 @@ This system is built around a quadcopter platform controlled by NodeMCU / ESP826
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/drone-virtual-remote-camera.jpg" width="250" />
 </p>
 
-## Model Results
+---
+
+## Vision Performance
 
 ### Input vs Prediction
 
@@ -30,7 +49,7 @@ This system is built around a quadcopter platform controlled by NodeMCU / ESP826
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20Color.png" width="300" />
 </p>
 
-### Segmentation Outputs
+### Segmentation Output
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20BW.png" width="280" />
@@ -39,42 +58,46 @@ This system is built around a quadcopter platform controlled by NodeMCU / ESP826
 
 ---
 
-## Key Capabilities
+## What This Project Delivers
 
-- Autonomous flood region segmentation from drone imagery
-- Real-time person/target detection using YOLO
-- Tracking control logic to maintain a target distance of about 5 meters
-- IMU-based stabilization support for smoother flight
-- WiFi command and telemetry interface for remote operation
-- Web-based upload and visualization via Flask UI
+- **Flood zone segmentation** from aerial imagery
+- **Target detection** for people and rescue subjects
+- **Autonomous flight control** with distance-based tracking
+- **IMU-assisted stability** for smoother maneuvers
+- **Remote operation** over WiFi with telemetry feedback
+- **Web-based interface** for easy deployment and testing
 
-## Hardware and Software Stack
+---
 
-- Python
-- Flask
-- OpenCV
-- TensorFlow / Keras
-- NumPy
-- NodeMCU / ESP8266
-- MPU IMU sensor
-- ESC and LiPo-powered quadcopter
+## Technology Stack
+
+| Component | Description |
+| --- | --- |
+| Python | Core application and logic |
+| Flask | Web server and UI |
+| OpenCV | Image processing and computer vision |
+| TensorFlow / Keras | Deep learning model training and inference |
+| NumPy | Numerical computing |
+| NodeMCU / ESP8266 | Drone control and WiFi connectivity |
+| MPU IMU | Stabilization sensor data |
+| ESC + LiPo | Quadcopter propulsion hardware |
 
 ---
 
 ## System Architecture
 
 ```text
-Drone Camera → YOLO Detection → U-Net Segmentation → Tracking Control → WiFi Command → Telemetry
+Drone Camera → YOLO Detection → U-Net Segmentation → Target Tracking → WiFi Command → Telemetry
 ```
 
 ---
 
-## Core Modules
+## Core Software Modules
 
-- `drone_control.py` — WiFi command client for NodeMCU / ESP8266 controlling takeoff, landing, hovering, velocity, attitude, and telemetry.
-- `vision_pipeline.py` — YOLO-based detection, U-Net segmentation, and autonomous target tracking logic.
-- `imu_module.py` — IMU signal smoothing and attitude adjustment helper for flight stabilization.
-- `app.py` — Flask frontend and backend, image upload flow, processing, and remote command endpoints.
+- `drone_control.py` — WiFi-based command client for NodeMCU / ESP8266 with takeoff, landing, hover, velocity, attitude, and telemetry.
+- `vision_pipeline.py` — Integrated YOLO detection and U-Net segmentation pipeline with tracking control logic.
+- `imu_module.py` — IMU signal smoothing and flight stabilization helpers.
+- `app.py` — Flask backend, image upload processing, and remote command / telemetry endpoints.
 - `train_model.py` — U-Net training script for flood mask segmentation.
 
 ---
@@ -91,7 +114,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-Start the web app:
+Run the application:
 
 ```bash
 python app.py
@@ -103,30 +126,31 @@ Train the segmentation model:
 python train_model.py
 ```
 
-Use the web interface to upload drone images and visualize flood mask output. The Flask app also exposes command and telemetry APIs for drone control.
+Then use the web interface to upload aerial images, process flood segmentation, and access drone telemetry.
 
 ---
 
-## Achievements
+## Achievement Summary
 
-- Developed a quadcopter with ESC and LiPo integration
-- Created a vision pipeline combining YOLO detection and U-Net segmentation
-- Implemented subject tracking logic with 5m distance control
-- Integrated IMU data for flight stability
-- Built WiFi-based control and telemetry system
-- Awarded 1st Prize for IoT-based flood rescue innovation
+- Built a full-stack flood rescue drone with embedded control
+- Implemented computer vision using YOLO and U-Net
+- Designed active tracking to keep the drone at a safe following distance
+- Added IMU-based stabilization for smoother flight behavior
+- Built a WiFi telemetry and control framework for remote piloting
+- Recognized with 1st Prize for IoT-based flood rescue innovation
 
 ---
 
-## Future Improvements
+## Future Roadmap
 
-- Real-time video stream segmentation and tracking
-- Complete autonomous flight planning for rescue paths
-- AI-based alert and rescue recommendation system
-- Cloud deployment for remote monitoring and analytics
+- Live video segmentation and target tracking
+- Autonomous rescue path planning
+- Adaptive control using sensor fusion
+- Cloud-based monitoring and alerting
+- Mobile-ready control dashboard
 
 ---
 
 ## Author
 
-Dinesh Yadav
+**Dinesh Yadav**
