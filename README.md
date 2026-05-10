@@ -56,11 +56,15 @@ Drone Camera → Live Video Stream → YOLO Detection → U-Net Segmentation →
   <img src="DashBoard.png" width="700" alt="Dashboard Screenshot" />
 </p>
 
+### Project Gallery
+
 <p align="center">
-  <img src="Drone(Hardware).jpg" width="700" alt="Drone Hardware Photo" />
+  <img src="Drone(Hardware).jpg" width="240" alt="Drone top view" style="margin: 5px; border:1px solid #ccc;" />
+  <img src="Drone_working.jpg" width="240" alt="Drone prototype" style="margin: 5px; border:1px solid #ccc;" />
+  <img src="drone-virtual-remote-camera.jpg" width="240" alt="Live demo laptop" style="margin: 5px; border:1px solid #ccc;" />
 </p>
 
-*Prototype drone rig shown with embedded NodeMCU/ESP8266, MPU IMU, and flood-rescue payload.*
+*Compact gallery of the prototype drone, hardware assembly, and the web control interface.*
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/Predicted%20Mask%20Color.png" width="500" alt="Segmentation Output" />
