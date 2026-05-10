@@ -162,13 +162,39 @@
             margin: 0 auto;
         }
 
+        .joystick-ring {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stick-ball {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6370, #ff9d9f);
+            position: absolute;
+            top: 44px;
+            left: 44px;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
+            transition: transform 0.1s ease;
+        }
+
+        .stick-ball.blue {
+            background: linear-gradient(135deg, #5f8bff, #88b6ff);
+        }
+
         #stick1,
         #stick2 {
-            width: 82px;
-            height: 82px;
-            position: absolute;
-            top: 39px;
-            left: 39px;
+            width: 72px;
+            height: 72px;
         }
 
         .status-text {
@@ -286,17 +312,19 @@
         <div class="control-grid">
             <div class="joystick-card">
                 <h3>Throttle / Yaw</h3>
-                <div class="joystick" style="border: 2px solid #ff5f5f; border-radius: 18px;">
-                    <img src="{{ url_for('static', filename='joystick-base(1).png') }}" alt="Joystick Base" style="width:100%;height:100%;" />
-                    <div id="stick1"><img src="{{ url_for('static', filename='joystick-red(1).png') }}" alt="Joystick" style="width:100%;height:100%;" /></div>
+                <div class="joystick">
+                    <div class="joystick-ring">
+                        <div class="stick-ball" id="stick1"></div>
+                    </div>
                 </div>
                 <p class="status-text" id="status1">Throttle: 0, Yaw: 0</p>
             </div>
             <div class="joystick-card">
                 <h3>Pitch / Roll</h3>
-                <div class="joystick" style="border: 2px solid #5f8bff; border-radius: 18px;">
-                    <img src="{{ url_for('static', filename='joystick-base(1).png') }}" alt="Joystick Base" style="width:100%;height:100%;" />
-                    <div id="stick2"><img src="{{ url_for('static', filename='joystick-blue(1).png') }}" alt="Joystick" style="width:100%;height:100%;" /></div>
+                <div class="joystick">
+                    <div class="joystick-ring">
+                        <div class="stick-ball blue" id="stick2"></div>
+                    </div>
                 </div>
                 <p class="status-text" id="status2">Pitch: 0, Roll: 0</p>
             </div>

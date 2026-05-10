@@ -1,5 +1,15 @@
 # Autonomous AI Drone Flood Rescue System
 
+## Dashboard Interface
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/dashboard-screenshot.png" width="800" alt="Drone Control Dashboard" />
+</p>
+
+*Real-time drone control dashboard with live stream, telemetry, and autonomous tracking modes.*
+
+---
+
 A professional-grade flood rescue solution that blends robotics, computer vision, and embedded IoT control into one award-winning platform.
 
 This project delivers an end-to-end drone system that detects flood victims, segments flood zones, and maintains stable flight while offering remote command and telemetry over WiFi.
