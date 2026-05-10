@@ -3,7 +3,7 @@
 ## Dashboard Interface
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dinesh1115/Drone-Based-Flood-Segmentation-System/main/dashboard-screenshot.png" width="800" alt="Drone Control Dashboard" />
+  <img src="DashBoard.png" width="900" alt="Drone Control Dashboard" />
 </p>
 
 *Real-time drone control dashboard with live stream, telemetry, and autonomous tracking modes.*
