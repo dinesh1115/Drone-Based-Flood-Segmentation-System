@@ -112,31 +112,94 @@ Drone Camera → YOLO Detection → U-Net Segmentation → Target Tracking → W
 
 ---
 
-## Installation
+## Prerequisites
 
-```bash
-git clone https://github.com/dinesh1115/Drone-Based-Flood-Segmentation-System.git
-cd Drone-Based-Flood-Segmentation-System
-pip install -r requirements.txt
-```
+Before installation, ensure your environment includes:
+
+- Python 3.10 or higher
+- Git
+- `pip` package manager
+- A webcam / ESP32-CAM stream for live video
+- NodeMCU / ESP8266 based flight controller for drone control
+
+### Optional hardware
+
+- MPU IMU sensor for stabilization
+- ESC + LiPo battery powertrain
+- GPS module for location tracking
 
 ---
 
-## Usage
+## Project Setup
 
-Run the application:
+```bash
+# Clone the repository
+git clone https://github.com/dinesh1115/Drone-Based-Flood-Segmentation-System.git
+cd Drone-Based-Flood-Segmentation-System
+
+# Create and activate a Python virtual environment
+python -m venv venv
+venv\Scripts\activate
+
+# Install required Python packages
+pip install -r requirements.txt
+```
+
+### Required model files
+
+Copy or download the following files before running the app:
+
+- `unet_model.h5` — trained segmentation model
+- `models/yolov3.cfg` — YOLO configuration
+- `models/yolov3.weights` — YOLO weights
+- `models/coco.names` — YOLO class labels
+
+If you do not have `unet_model.h5`, train the model using the `train_model.py` script.
+
+---
+
+## Running the Application
+
+### Start the Flask dashboard
 
 ```bash
 python app.py
 ```
 
-Train the segmentation model:
+Open your browser at `http://127.0.0.1:5000` and log in to access the dashboard.
+
+### Train the segmentation model
 
 ```bash
 python train_model.py
 ```
 
-Then use the web interface to upload aerial images, process flood segmentation, and access drone telemetry.
+Use this command when you want to retrain the flood mask model on your own dataset.
+
+---
+
+## Advanced Installation
+
+### GPU acceleration
+
+For faster model inference on compatible hardware, install a GPU-enabled TensorFlow package or environment specific to your platform.
+
+### Model preparation
+
+If you are deploying this project on a new machine:
+
+1. Place `unet_model.h5` in the project root.
+2. Place YOLO files under `models/`.
+3. Configure `DRONE_HOST` and `DRONE_PORT` environment variables if your flight controller uses a different IP address.
+
+---
+
+## Usage Notes
+
+- Use the dashboard to monitor live video, run segmentation, and issue drone commands.
+- The `drone_control.py` module sends WiFi commands to the NodeMCU / ESP8266 controller.
+- The `vision_pipeline.py` module performs detection and segmentation for autonomous tracking.
+- The `imu_module.py` module smooths IMU data and supports flight stabilization.
 
 ---
 
