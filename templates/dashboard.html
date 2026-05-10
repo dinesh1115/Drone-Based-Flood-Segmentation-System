@@ -1,305 +1,466 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drone Control Interface</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drone Control Dashboard</title>
     <style>
-        /* Global Styles */
         body {
-            font-family: 'Courier', monospaced;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
+            background: #050505;
+            color: #f0f0f0;
             margin: 0;
-            padding: 0;
-            background: black;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Header Styles */
         header {
-            background: url("{{ url_for('static', filename='remotebgimge.avif') }}") no-repeat center center fixed;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 50px 0;
+            background: linear-gradient(135deg, #0b243b 0%, #022b54 100%);
+            padding: 24px 32px;
+            color: #fff;
+        }
+
+        header .topbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
 
         header h1 {
-            font-size: 3em;
             margin: 0;
+            font-size: 2rem;
+            letter-spacing: 0.04em;
         }
 
-        header hr {
-            border: 1px solid #fff;
-            width: 50%;
-            margin: 20px auto;
+        header .nav-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        /* Joystick Container */
-        .joystick-container {
-            display: inline-block;
-            margin: 20px;
+        header .nav-links a,
+        header .nav-links button {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        header .nav-links a:hover,
+        header .nav-links button:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        main {
+            padding: 24px 32px;
+            display: grid;
+            gap: 24px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 24px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.9fr;
+            gap: 24px;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .telemetry-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: left;
+        }
+
+        .metric strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #a8d0ff;
+        }
+
+        .metric span {
+            font-size: 1.25rem;
+        }
+
+        .live-stream {
+            display: grid;
+            gap: 16px;
+        }
+
+        #videoStream {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            object-fit: cover;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .controls button,
+        .secondary buttons {
+            width: 100%;
+        }
+
+        .joystick-panel {
+            display: grid;
+            gap: 20px;
+        }
+
+        .joystick-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 18px;
+            padding: 18px;
+        }
+
+        .joystick-card h3 {
+            margin: 0 0 12px;
+            font-size: 1rem;
+            color: #cfd8ff;
         }
 
         .joystick {
-            width: 128px;
-            height: 128px;
+            width: 160px;
+            height: 160px;
             position: relative;
-            margin: auto;
+            margin: 0 auto;
         }
 
-        /* Joystick Stick */
-        #stick1, #stick2 {
-            width: 64px;
-            height: 64px;
+        #stick1,
+        #stick2 {
+            width: 82px;
+            height: 82px;
             position: absolute;
-            top: 32px;
-            left: 32px;
+            top: 39px;
+            left: 39px;
         }
 
-        /* Button Styles */
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .status-text {
+            font-size: 0.95rem;
+            margin-top: 12px;
+            color: #d8dee9;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .mode-selector {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
         }
 
-        /* Live Stream and Canvas Styles */
-        #videoStream {
-            border: 2px solid black;
-            width: 320px;
-            height: 240px;
+        .mode-selector select {
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(0, 0, 0, 0.4);
+            color: #f7f7f7;
         }
 
-        canvas {
-            display: none;
+        .mode-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        /* Status Info */
-        #status1, #status2 {
-            font-size: 18px;
-            margin: 10px;
+        .button-primary {
+            background: linear-gradient(135deg, #1d72ff, #6e8cff);
+        }
+
+        .button-secondary {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        @media (max-width: 980px) {
+            .dashboard-grid,
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-
-<h1>Drone Control Interface</h1>
-<hr>
-<div id="status1" style="color: red;">Throttle: 0, Yaw: 0</div>
-<div id="status2" style="color: blue;">Pitch: 0, Roll: 0</div>
-<hr>
-
-<!-- Video Stream from ESP32-CAM -->
-<div>
-    <h2>Live Stream</h2>
-    <img id="videoStream" src="" alt="Live Stream" style="width: 320px; height: 240px; border: 2px solid black;">
-</div>
-
-<!-- Screenshot Capture Button -->
-<button id="captureButton">Capture Screenshot</button>
-
-<!-- Process Image Button -->
-<button id="processButton">Process Image</button>
-
-<br>
-<canvas id="screenshotCanvas" style="display: none;"></canvas>
-
-<div class="joystick-container">
-    <h2>Throttle / Yaw</h2>
-    <div style="border: 1px solid red;" class="joystick">
-        <img src="{{ url_for('static', filename='joystick-base(1).png') }}" alt="Joystick Base">
-        <div id="stick1">
-            <img src="{{ url_for('static', filename='joystick-red(1).png') }}" alt="Joystick">
+<header>
+    <div class="topbar">
+        <div>
+            <h1>Flood Rescue Drone Dashboard</h1>
+            <p style="margin:4px 0 0;color:#c3d4ff;">Manual and autonomous drone control with vision and telemetry integration.</p>
+        </div>
+        <div class="nav-links">
+            <a href="/process">Segmentation</a>
+            <a href="/process">Upload Image</a>
+            <a href="/logout">Logout</a>
         </div>
     </div>
-</div>
+</header>
+<main>
+    <div class="dashboard-grid">
+        <section class="panel live-stream">
+            <h2>Live Stream</h2>
+            <img id="videoStream" src="" alt="Drone live stream" />
+            <div class="controls">
+                <button class="button-primary" id="takeoffButton">Takeoff</button>
+                <button class="button-secondary" id="landButton">Land</button>
+                <button class="button-secondary" id="hoverButton">Hover</button>
+                <button class="button-secondary" id="stopButton">Emergency Stop</button>
+                <button class="button-secondary" id="trackButton">Auto Track</button>
+                <button class="button-secondary" id="segmentButton">Process Frame</button>
+            </div>
+        </section>
 
-<div class="joystick-container">
-    <h2>Pitch / Roll</h2>
-    <div style="border: 1px solid blue;" class="joystick">
-        <img src="{{ url_for('static', filename='joystick-base(1).png') }}" alt="Joystick Base">
-        <div id="stick2">
-            <img src="{{ url_for('static', filename='joystick-blue(1).png') }}" alt="Joystick">
-
-        </div>
+        <section class="panel">
+            <h2>Telemetry & Flight Mode</h2>
+            <div class="telemetry-row">
+                <div class="metric">
+                    <strong>Battery</strong>
+                    <span id="batteryValue">--</span>
+                </div>
+                <div class="metric">
+                    <strong>Altitude</strong>
+                    <span id="altitudeValue">--</span>
+                </div>
+                <div class="metric">
+                    <strong>GPS</strong>
+                    <span id="gpsValue">--</span>
+                </div>
+                <div class="metric">
+                    <strong>Flight State</strong>
+                    <span id="stateValue">--</span>
+                </div>
+            </div>
+            <div class="mode-selector">
+                <label for="flightMode">Flight Mode</label>
+                <select id="flightMode">
+                    <option value="manual">Manual</option>
+                    <option value="auto_track">Auto Track</option>
+                    <option value="segment_only">Segmentation</option>
+                </select>
+                <button class="button-primary" id="modeUpdateButton">Apply Mode</button>
+            </div>
+            <div class="status-text" id="modeStatus">Current mode: manual</div>
+        </section>
     </div>
-</div>
 
-<br>
-<button id="stopButton">STOP</button>
+    <section class="panel joystick-panel">
+        <h2>Manual Control</h2>
+        <div class="control-grid">
+            <div class="joystick-card">
+                <h3>Throttle / Yaw</h3>
+                <div class="joystick" style="border: 2px solid #ff5f5f; border-radius: 18px;">
+                    <img src="{{ url_for('static', filename='joystick-base(1).png') }}" alt="Joystick Base" style="width:100%;height:100%;" />
+                    <div id="stick1"><img src="{{ url_for('static', filename='joystick-red(1).png') }}" alt="Joystick" style="width:100%;height:100%;" /></div>
+                </div>
+                <p class="status-text" id="status1">Throttle: 0, Yaw: 0</p>
+            </div>
+            <div class="joystick-card">
+                <h3>Pitch / Roll</h3>
+                <div class="joystick" style="border: 2px solid #5f8bff; border-radius: 18px;">
+                    <img src="{{ url_for('static', filename='joystick-base(1).png') }}" alt="Joystick Base" style="width:100%;height:100%;" />
+                    <div id="stick2"><img src="{{ url_for('static', filename='joystick-blue(1).png') }}" alt="Joystick" style="width:100%;height:100%;" /></div>
+                </div>
+                <p class="status-text" id="status2">Pitch: 0, Roll: 0</p>
+            </div>
+        </div>
+    </section>
+</main>
 
 <script>
-// ESP32 IP addresses (replace with your drone's IP and ESP32-CAM IP)
-const droneIP = 'http://192.168.237.60';
-const cameraIP = 'http://192.168.97.88'; // Replace with the actual IP address of your ESP32-CAM
+const cameraIP = 'http://192.168.97.88';
+const telemetryInterval = 2500;
+const commandHeaders = { 'Content-Type': 'application/json' };
+let currentMode = 'manual';
 
-// Function to update the video stream from the ESP32-CAM
 function updateVideoStream() {
-    document.getElementById("videoStream").src = `${cameraIP}:81/stream`;
+    document.getElementById('videoStream').src = `${cameraIP}:81/stream`;
 }
 
-// Call the function to load the live stream
-updateVideoStream();
-
-// Function to send commands to the drone
-function sendCommand(path) {
-    fetch(droneIP + path)
-        .then(response => console.log("Command sent:", path))
-        .catch(err => console.log("Error:", err));
+async function apiCommand(command, params = {}) {
+    try {
+        const response = await fetch('/api/command', {
+            method: 'POST',
+            headers: commandHeaders,
+            body: JSON.stringify({ command, params })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Command error', error);
+        return { status: 'error', message: error.message };
+    }
 }
 
-// Capture Screenshot Functionality
-document.getElementById("captureButton").addEventListener("click", function () {
-    const videoElement = document.getElementById("videoStream");
-    const canvas = document.getElementById("screenshotCanvas");
-    const context = canvas.getContext("2d");
+async function updateTelemetry() {
+    try {
+        const response = await fetch('/api/telemetry');
+        const data = await response.json();
+        if (data.status === 'ok') {
+            const telemetry = data.telemetry || {};
+            document.getElementById('batteryValue').innerText = telemetry.battery ?? '--';
+            document.getElementById('altitudeValue').innerText = telemetry.altitude ?? '--';
+            document.getElementById('gpsValue').innerText = telemetry.gps ? JSON.stringify(telemetry.gps) : '--';
+            document.getElementById('stateValue').innerText = telemetry.state ?? '--';
+        }
+    } catch (error) {
+        console.warn('Telemetry unavailable', error);
+    }
+}
 
-    // Set canvas dimensions to match the video element
-    canvas.width = videoElement.width;
-    canvas.height = videoElement.height;
+function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('modeStatus').innerText = `Current mode: ${mode.replace('_', ' ')}`;
+    if (mode === 'auto_track') {
+        apiCommand('follow_distance', { distance: 5.0 });
+    }
+}
 
-    // Draw the current frame of the video onto the canvas
-    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+function dispatchManualControl() {
+    if (currentMode !== 'manual') return;
+    const throttle = parseFloat(joystick1.value.y.toFixed(2));
+    const yaw = parseFloat(joystick1.value.x.toFixed(2));
+    const pitch = parseFloat(joystick2.value.y.toFixed(2));
+    const roll = parseFloat(joystick2.value.x.toFixed(2));
 
-    // Get the data URL of the canvas image
-    const screenshotData = canvas.toDataURL("image/png");
+    document.getElementById('status1').innerText = `Throttle: ${throttle}, Yaw: ${yaw}`;
+    document.getElementById('status2').innerText = `Pitch: ${pitch}, Roll: ${roll}`;
 
-    // Create a temporary link to download the screenshot
-    const link = document.createElement("a");
-    link.href = screenshotData;
-    link.download = "screenshot.png";
-    link.click();
-});
+    apiCommand('set_attitude', { roll, pitch, yaw, throttle });
+}
 
-// Process Image Functionality
-document.getElementById("processButton").addEventListener("click", function () {
-    // Redirect to the /process route
-    window.location.href = "/process";
-});
+function initButtons() {
+    document.getElementById('takeoffButton').addEventListener('click', () => apiCommand('takeoff'));
+    document.getElementById('landButton').addEventListener('click', () => apiCommand('land'));
+    document.getElementById('hoverButton').addEventListener('click', () => apiCommand('hover'));
+    document.getElementById('stopButton').addEventListener('click', () => apiCommand('stop'));
+    document.getElementById('trackButton').addEventListener('click', () => setMode('auto_track'));
+    document.getElementById('segmentButton').addEventListener('click', () => window.location.href = '/process');
+    document.getElementById('modeUpdateButton').addEventListener('click', () => {
+        const selected = document.getElementById('flightMode').value;
+        setMode(selected);
+    });
+}
 
-// Joystick Controller Class
 class JoystickController {
     constructor(stickID, maxDistance, deadzone) {
         this.id = stickID;
-        let stick = document.getElementById(stickID);
-
+        this.element = document.getElementById(stickID);
         this.dragStart = null;
         this.touchId = null;
         this.active = false;
         this.value = { x: 0, y: 0 };
+        this.maxDistance = maxDistance;
+        this.deadzone = deadzone;
+        this.initEvents();
+    }
 
-        let self = this;
+    initEvents() {
+        const stick = this.element;
+        stick.addEventListener('mousedown', this.handleDown.bind(this));
+        stick.addEventListener('touchstart', this.handleDown.bind(this));
+        document.addEventListener('mousemove', this.handleMove.bind(this), { passive: false });
+        document.addEventListener('touchmove', this.handleMove.bind(this), { passive: false });
+        document.addEventListener('mouseup', this.handleUp.bind(this));
+        document.addEventListener('touchend', this.handleUp.bind(this));
+    }
 
-        function handleDown(event) {
-            self.active = true;
-            stick.style.transition = '0s';
-            event.preventDefault();
+    handleDown(event) {
+        this.active = true;
+        this.element.style.transition = '0s';
+        event.preventDefault();
+        const point = event.changedTouches ? event.changedTouches[0] : event;
+        this.dragStart = { x: point.clientX, y: point.clientY };
+        if (event.changedTouches) {
+            this.touchId = event.changedTouches[0].identifier;
+        }
+    }
 
-            if (event.changedTouches)
-                self.dragStart = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
-            else
-                self.dragStart = { x: event.clientX, y: event.clientY };
-
-            if (event.changedTouches)
-                self.touchId = event.changedTouches[0].identifier;
+    handleMove(event) {
+        if (!this.active) return;
+        let point = event;
+        if (event.changedTouches) {
+            const touch = Array.from(event.changedTouches).find(t => t.identifier === this.touchId);
+            if (!touch) return;
+            point = touch;
         }
 
-        function handleMove(event) {
-            if (!self.active) return;
-            let touchmoveId = null;
-            if (event.changedTouches) {
-                for (let i = 0; i < event.changedTouches.length; i++) {
-                    if (self.touchId == event.changedTouches[i].identifier) {
-                        touchmoveId = i;
-                        event.clientX = event.changedTouches[i].clientX;
-                        event.clientY = event.changedTouches[i].clientY;
-                    }
-                }
-                if (touchmoveId == null) return;
-            }
+        const xDiff = point.clientX - this.dragStart.x;
+        const yDiff = point.clientY - this.dragStart.y;
+        const distance = Math.min(this.maxDistance, Math.hypot(xDiff, yDiff));
+        const angle = Math.atan2(yDiff, xDiff);
+        const xPosition = distance * Math.cos(angle);
+        const yPosition = distance * Math.sin(angle);
 
-            const xDiff = event.clientX - self.dragStart.x;
-            const yDiff = event.clientY - self.dragStart.y;
-            const angle = Math.atan2(yDiff, xDiff);
-            const distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));
-            const xPosition = distance * Math.cos(angle);
-            const yPosition = distance * Math.sin(angle);
+        this.element.style.transform = `translate3d(${xPosition}px, ${yPosition}px, 0px)`;
 
-            stick.style.transform = `translate3d(${xPosition}px, ${yPosition}px, 0px)`;
+        const scaled = distance < this.deadzone ? 0 : (distance - this.deadzone) / (this.maxDistance - this.deadzone);
+        this.value = {
+            x: parseFloat((scaled * Math.cos(angle)).toFixed(2)),
+            y: parseFloat((scaled * Math.sin(angle)).toFixed(2))
+        };
+    }
 
-            const distance2 = (distance < deadzone) ? 0 : maxDistance / (maxDistance - deadzone) * (distance - deadzone);
-            const xPosition2 = distance2 * Math.cos(angle);
-            const yPosition2 = distance2 * Math.sin(angle);
-            const xPercent = parseFloat((xPosition2 / maxDistance).toFixed(4));
-            const yPercent = parseFloat((yPosition2 / maxDistance).toFixed(4));
-
-            self.value = { x: xPercent, y: yPercent };
-        }
-
-        function handleUp(event) {
-            if (!self.active) return;
-            if (event.changedTouches && self.touchId != event.changedTouches[0].identifier) return;
-
-            stick.style.transition = '.2s';
-            stick.style.transform = 'translate3d(0px, 0px, 0px)';
-
-            self.value = { x: 0, y: 0 };
-            self.touchId = null;
-            self.active = false;
-        }
-
-        stick.addEventListener('mousedown', handleDown);
-        stick.addEventListener('touchstart', handleDown);
-        document.addEventListener('mousemove', handleMove, { passive: false });
-        document.addEventListener('touchmove', handleMove, { passive: false });
-        document.addEventListener('mouseup', handleUp);
-        document.addEventListener('touchend', handleUp);
+    handleUp(event) {
+        if (!this.active) return;
+        if (event.changedTouches && event.changedTouches[0].identifier !== this.touchId) return;
+        this.element.style.transition = '.2s';
+        this.element.style.transform = 'translate3d(0px, 0px, 0px)';
+        this.value = { x: 0, y: 0 };
+        this.touchId = null;
+        this.active = false;
     }
 }
 
-// Initialize Joysticks
-let joystick1 = new JoystickController("stick1", 64, 8);
-let joystick2 = new JoystickController("stick2", 64, 8);
+let joystick1 = new JoystickController('stick1', 64, 8);
+let joystick2 = new JoystickController('stick2', 64, 8);
 
-// Update Function
 function update() {
-    // Joystick 1: Throttle (Y-axis) and Yaw (X-axis)
-    let throttle = (joystick1.value.y).toFixed(2);
-    let yaw = (joystick1.value.x).toFixed(2);
-    document.getElementById("status1").innerText = `Throttle: ${throttle}, Yaw: ${yaw}`;
-
-    // Send throttle and yaw values to drone
-    sendCommand(`/throttle/set?value=${throttle}`);
-    sendCommand(`/yaw/set?value=${yaw}`);
-
-    // Joystick 2: Pitch (Y-axis) and Roll (X-axis)
-    let pitch = (joystick2.value.y).toFixed(2);
-    let roll = (joystick2.value.x).toFixed(2);
-    document.getElementById("status2").innerText = `Pitch: ${pitch}, Roll: ${roll}`;
-
-    // Send pitch and roll values to drone
-    sendCommand(`/pitch/set?value=${pitch}`);
-    sendCommand(`/roll/set?value=${roll}`);
-
-    // Repeat the update loop
+    dispatchManualControl();
     requestAnimationFrame(update);
 }
 
-// Start the update loop
+updateVideoStream();
+initButtons();
 update();
+setInterval(updateTelemetry, telemetryInterval);
+setMode('manual');
 </script>
-
 </body>
 </html>
