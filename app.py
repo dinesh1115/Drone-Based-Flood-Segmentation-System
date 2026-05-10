@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import os
 import sqlite3
-from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
+
+from drone_control import DroneController
+from vision_pipeline import UNetSegmenter
+from imu_module import IMUProcessor
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'your_secret_key'
@@ -16,8 +19,13 @@ MODEL_PATH = 'unet_model.h5'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESULT_FOLDER'] = RESULT_FOLDER
 
-# Load the model
-model = load_model(MODEL_PATH)
+# Hardware and vision modules
+DRONE_HOST = os.getenv('DRONE_HOST', '192.168.4.1')
+DRONE_PORT = int(os.getenv('DRONE_PORT', '80'))
+
+drone_controller = DroneController(host=DRONE_HOST, port=DRONE_PORT)
+segmenter = UNetSegmenter(MODEL_PATH)
+imu_processor = IMUProcessor()
 
 # Initialize the database
 def init_db():
@@ -106,6 +114,35 @@ def logout():
     flash('You have logged out.', 'success')
     return redirect(url_for('login'))
 
+@app.route('/api/command', methods=['POST'])
+def api_command():
+    if 'user' not in session:
+        return jsonify({'error': 'Authentication required'}), 401
+
+    data = request.get_json(silent=True) or {}
+    command = data.get('command')
+    params = data.get('params', {})
+
+    if not command:
+        return jsonify({'error': 'Command not provided'}), 400
+
+    try:
+        result = drone_controller.send_command(command, params)
+        return jsonify({'status': 'ok', 'result': result})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/api/telemetry')
+def api_telemetry():
+    if 'user' not in session:
+        return jsonify({'error': 'Authentication required'}), 401
+
+    try:
+        data = drone_controller.get_telemetry()
+        return jsonify({'status': 'ok', 'telemetry': data})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 @app.route('/process', methods=['GET', 'POST'])
 def process():
     if 'user' not in session:
@@ -136,8 +173,7 @@ def upload():
 
     # Process the image
     image = preprocess_image(file_path)
-    mask = model.predict(image)
-    mask = postprocess_mask(mask)
+    mask = segmenter.predict_mask(cv2.imread(file_path))
 
     # Save result
     result_path = os.path.join(app.config['RESULT_FOLDER'], f"masked_{file.filename}")

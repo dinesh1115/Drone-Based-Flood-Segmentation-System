@@ -58,6 +58,16 @@ Drone Camera → Image Capture → Deep Learning Model → Segmentation Output �
 
 ---
 
+## Drone Control Modules
+
+- `drone_control.py` — WiFi-based NodeMCU / ESP8266 command client for takeoff, landing, hover, velocity, and telemetry.
+- `vision_pipeline.py` — YOLO detection, U-Net segmentation, and target tracking pipeline for flood rescue.
+- `imu_module.py` — IMU data smoothing and attitude adjustment helpers for flight stabilization.
+
+The application can now send control commands over WiFi and parse telemetry from an ESP-based flight controller.
+
+---
+
 ## Installation
 
 ```bash
